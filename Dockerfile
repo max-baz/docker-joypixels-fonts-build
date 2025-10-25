@@ -1,9 +1,10 @@
 FROM ubuntu
+ENV DEBIAN_FRONTEND=noninteractive
 
 VOLUME /fonts /assets
 
 RUN apt update -y && apt upgrade -y && apt install -y libffi-dev git make cargo python3-venv python-is-python3 zopfli pkgconf clang libcairo2-dev imagemagick
-RUN git clone --depth 1 https://github.com/maximbaz/joypixels-emoji.git /root/joypixels-emoji && \
+RUN git clone --depth 1 https://github.com/max-baz/joypixels-emoji.git /root/joypixels-emoji && \
     cd /root/joypixels-emoji && \
     python -m venv . && \
     . bin/activate && \
