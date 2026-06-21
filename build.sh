@@ -9,6 +9,9 @@ echo "==> Activating the build environment..."
 cd /root/joypixels-emoji
 . bin/activate
 
+JOBS=${JOBS:-$(nproc)}
+echo "==> Using $JOBS make job(s)..."
+
 echo "==> Copying assets for further processing..."
 mkdir -p png/128/
 cp /assets/png/128/*.png png/128/
@@ -17,10 +20,10 @@ echo "==> Renaming image files..."
 /rename_files.py /assets/emoji.json /root/joypixels-emoji/png/128
 
 echo "==> Validating the sequences..."
-make -j check_sequence || true
+make -j "$JOBS" check_sequence || true
 
 echo "==> Building the font..."
-make -j BYPASS_SEQUENCE_CHECK=True
+make -j "$JOBS" BYPASS_SEQUENCE_CHECK=True
 
 echo "==> Saving the font file(s) on the host..."
 mv joypixels-emoji.ttf joypixels-emoji-windows.ttf /fonts/
